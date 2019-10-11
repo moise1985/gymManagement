@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+        <meta charset="UTF-8"/>
+        <script type="text/javascript" src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+
+<title>clientList</title>
+
+</head>
+
+<h2>
+    Clients List:
+</h2>
+
+<body>
+</br>
+
+<table class="table table-striped"  border="2">
+    <thead>
+    <tr>
+        <th  th:text="First +  ' ' + Name"></th>
+        <th  th:text="LastName"></th>
+        <th  th:text="CNP"></th>
+        <th  th:text="CardNumber"></th>
+        <th  th:text="EmailAddress"></th>
+        <th  th:text="Delete"></th>
+        <th  th:text="Update"></th>
+        <th  th:text="Subscriptions"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="client : ${clientList}">
+        <tr>
+            <td th:text="${client.getFirstName()}"></td>
+            <td th:text="${client.getLastName()}"></td>
+            <td th:text="${client.getCNP()}"></td>
+            <td th:text="${client.getCardNumber()}"></td>
+            <td th:text="${client.getEmailAddress()}"></td>
+            <td>
+                <form action="#" th:action="@{/client/delete/} + ${client.getClientID()}"  method="post">
+                    <input type="submit" value="Delete" class="btn btn-success"/>
+                </form>
+            </td>
+            <td>
+                <form action="#" th:action="@{/client/update/} + ${client.getClientID()}"  method="post">
+                    <input type="submit" value="Update" class="btn btn-primary"/>
+                </form>
+            </td>
+            <td>
+                <form action="#" th:action="@{/subscription/list/} + ${client.getClientID()}"  method="get">
+                    <input type="submit" value="View Subscriptions" class="btn btn-info"/>
+                </form>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+</br>
+<form action="#" th:action="@{/client/save}" th:object="${client}" method="post">
+    <tr>
+        <td><input type="hidden" th:field="*{clientID}"/></td></br>
+        <td><label> First Name: <input type="text" th:field="*{firstName}"/></label></td></br>
+        <td><label> Last Name: <input type="text" th:field="*{lastName}"/></label></td></br>
+        <td><label> CNP: <input type="text" th:field="*{CNP}"/></label></td></br>
+        <td><label> Card Number: <input type="text" th:field="*{cardNumber}"/></label></td></br>
+        <td><label> Email Address: <input type="text" th:field="*{emailAddress}"/></label></td></br>
+
+        <td><input type="submit" value="Submit" class="btn btn-secondary"/> </td>
+    </tr>
+</form>
+
+</body>
+</html>
